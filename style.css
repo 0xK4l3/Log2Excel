@@ -1,0 +1,683 @@
+/* Modern UI Stylesheet for Log2Excel */
+:root {
+    --bg-gradient: radial-gradient(circle at top left, #0e111d, #07090e);
+    --card-bg: rgba(20, 24, 40, 0.65);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --primary-glow: rgba(99, 102, 241, 0.3);
+    --success: #10b981;
+    --success-hover: #059669;
+    --success-glow: rgba(16, 185, 129, 0.2);
+    --danger: #ef4444;
+    --danger-hover: #dc2626;
+    --gray-bg: #1e293b;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --radius-lg: 16px;
+    --radius-md: 10px;
+    --radius-sm: 6px;
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Reset and Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    line-height: 1.5;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 900px;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Header */
+.app-header {
+    text-align: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.logo-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    color: var(--primary);
+    filter: drop-shadow(0 0 8px var(--primary-glow));
+}
+
+.logo h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    background: linear-gradient(135deg, #fff 40%, var(--primary) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo h1 span {
+    color: var(--primary);
+    -webkit-text-fill-color: var(--primary);
+}
+
+.subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    font-weight: 300;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Main Content Layout */
+.app-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* Cards (Glassmorphism) */
+.card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: var(--radius-lg);
+    padding: 1.75rem;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    transition: var(--transition-normal);
+}
+
+.card:hover {
+    box-shadow: 0 15px 35px -10px rgba(0, 0, 0, 0.7);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Config Card */
+.config-card h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-primary);
+}
+
+.config-card h2 i {
+    width: 1.25rem;
+    height: 1.25rem;
+    color: var(--primary);
+}
+
+.settings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    align-items: center;
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-group label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.form-control {
+    background: var(--gray-bg);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-md);
+    font-family: inherit;
+    font-size: 0.95rem;
+    transition: var(--transition-fast);
+    outline: none;
+    width: 100%;
+}
+
+.form-control:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-glow);
+}
+
+#custom-delimiter {
+    margin-top: 0.5rem;
+    text-align: center;
+    font-family: monospace;
+    font-size: 1.1rem;
+    letter-spacing: 0.1em;
+}
+
+/* Checkbox Custom styling */
+.checkbox-group {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 1.5rem;
+}
+
+.checkboxes-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+    justify-content: center;
+    padding-top: 0.5rem;
+}
+
+.checkbox-container {
+    display: block;
+    position: relative;
+    padding-left: 2.25rem;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    user-select: none;
+}
+
+.checkbox-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 1.5rem;
+    width: 1.5rem;
+    background-color: var(--gray-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-sm);
+    transition: var(--transition-fast);
+}
+
+.checkbox-container:hover input ~ .checkmark {
+    border-color: var(--primary);
+}
+
+.checkbox-container input:checked ~ .checkmark {
+    background-color: var(--primary);
+    border-color: var(--primary);
+    box-shadow: 0 0 8px var(--primary-glow);
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.checkbox-container .checkmark:after {
+    left: 8px;
+    top: 4px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+/* Upload Card / Drop Zone */
+.upload-card {
+    border: 2px dashed var(--border-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3.5rem 2rem;
+    text-align: center;
+    cursor: pointer;
+    background: rgba(20, 24, 40, 0.4);
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-card.dragover {
+    border-color: var(--primary);
+    background: rgba(99, 102, 241, 0.08);
+    box-shadow: 0 0 25px var(--primary-glow);
+}
+
+.hidden-input {
+    display: none;
+}
+
+.upload-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 1.25rem;
+    position: relative;
+    z-index: 2;
+}
+
+.icon-pulse {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 50%;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+    display: inline-block;
+    transition: var(--transition-normal);
+}
+
+.upload-card:hover .icon-pulse,
+.upload-card.dragover .icon-pulse {
+    transform: scale(1.1);
+    background: rgba(99, 102, 241, 0.1);
+}
+
+.upload-icon {
+    width: 3rem;
+    height: 3rem;
+    color: var(--text-secondary);
+    transition: var(--transition-normal);
+}
+
+.upload-card:hover .upload-icon,
+.upload-card.dragover .upload-icon {
+    color: var(--primary);
+}
+
+.upload-prompt h3 {
+    font-size: 1.35rem;
+    font-weight: 600;
+    margin-bottom: 0.35rem;
+}
+
+.upload-prompt p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.file-limits {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Preview Card & Batch Card */
+.preview-card,
+.batch-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Progress Bar for Batch Conversion */
+.progress-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 10px;
+    background: var(--gray-bg);
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary), var(--success));
+    border-radius: 999px;
+    transition: width 0.25s ease;
+}
+
+/* Batch File List */
+.batch-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    max-height: 360px;
+    overflow-y: auto;
+    padding-right: 0.25rem;
+}
+
+.batch-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.85rem 1.1rem;
+    background: rgba(0, 0, 0, 0.25);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    transition: var(--transition-fast);
+}
+
+.batch-item:hover {
+    background: rgba(255, 255, 255, 0.03);
+    border-color: rgba(255, 255, 255, 0.15);
+}
+
+.batch-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    min-width: 0;
+    flex: 1;
+}
+
+.batch-item-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.batch-item-meta {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.batch-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.batch-badge.pending {
+    background: rgba(148, 163, 184, 0.12);
+    color: var(--text-secondary);
+}
+
+.batch-badge.processing {
+    background: rgba(99, 102, 241, 0.15);
+    color: #818cf8;
+}
+
+.batch-badge.done {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--success);
+}
+
+.batch-badge.error {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--danger);
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1.25rem;
+}
+
+.file-info-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.file-icon-success {
+    width: 2.25rem;
+    height: 2.25rem;
+    color: var(--success);
+    background: rgba(16, 185, 129, 0.1);
+    padding: 0.5rem;
+    border-radius: var(--radius-md);
+    box-shadow: 0 0 10px var(--success-glow);
+}
+
+#file-name {
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+#file-details {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.actions {
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Buttons */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 0.65rem 1.25rem;
+    border-radius: var(--radius-md);
+    border: none;
+    cursor: pointer;
+    transition: var(--transition-fast);
+    outline: none;
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn i {
+    width: 1.1rem;
+    height: 1.1rem;
+}
+
+.btn-primary {
+    background: var(--success);
+    color: white;
+    box-shadow: 0 4px 14px 0 var(--success-glow);
+}
+
+.btn-primary:hover {
+    background: var(--success-hover);
+    box-shadow: 0 6px 20px 0 var(--success-glow);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Table Container & Table */
+.table-container {
+    overflow-x: auto;
+    max-height: 400px;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-color);
+    background: rgba(0, 0, 0, 0.2);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+    text-align: left;
+}
+
+thead {
+    position: sticky;
+    top: 0;
+    background: var(--gray-bg);
+    z-index: 10;
+}
+
+th {
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+td {
+    padding: 0.75rem 1rem;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+tr:last-child td {
+    border-bottom: none;
+}
+
+tr:hover td {
+    color: var(--text-primary);
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Table styling for empty/null values */
+td.empty-cell {
+    color: rgba(255, 255, 255, 0.15);
+    font-style: italic;
+}
+
+.preview-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.preview-note {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.preview-note i {
+    width: 0.95rem;
+    height: 0.95rem;
+    color: var(--primary);
+}
+
+/* Footer styling */
+.app-footer {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 0.85rem;
+    margin-top: 1rem;
+}
+
+/* Utility Helpers */
+.hidden {
+    display: none !important;
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .app-container {
+        padding: 1.5rem 1rem;
+    }
+    
+    .logo h1 {
+        font-size: 2rem;
+    }
+    
+    .card {
+        padding: 1.25rem;
+    }
+    
+    .card-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .actions button {
+        flex: 1;
+    }
+}

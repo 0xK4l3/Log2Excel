@@ -13,7 +13,8 @@ Esta aplicación cuenta con una interfaz web moderna, responsiva y con modo oscu
 - **Configuración Dinámica:**
   - Selector de separador de celdas: Punto y coma (`;`), Coma (`,`), Tabulación (`\t`), Barra vertical (`|`) o delimitador personalizado.
   - Opción para activar/desactivar detección automática de fila de encabezados.
-- **Previsualización Instantánea:** Muestra las primeras 15 filas del archivo parseado antes de guardarlo para verificar que la configuración sea correcta.
+- **Conversión Masiva Automática (Batch):** Sube o arrastra múltiples archivos `.log`, `.txt` o `.csv` (o selecciona una carpeta completa) y la herramienta convertirá cada uno a `.xlsx` de forma directa, sin necesidad de mostrar la vista previa de la planilla, guardando automáticamente cada archivo convertido (`_convertido.xlsx`) en su **misma carpeta de origen**.
+- **Previsualización Individual Opcional:** Al desmarcar la conversión directa para un único archivo, muestra las primeras 15 filas del archivo parseado antes de guardarlo para verificar que la configuración sea correcta.
 - **Privacidad Total:** Todo el procesamiento y la conversión se realizan de forma local en tu computadora. Tus datos nunca se envían a ningún servidor externo.
 - **100% Portable:** Un único archivo `.exe` que puedes llevar en un pendrive y usar sin necesidad de instalaciones previas de Python o Node.js.
 
@@ -21,9 +22,11 @@ Esta aplicación cuenta con una interfaz web moderna, responsiva y con modo oscu
 
 ## 📂 Estructura del Repositorio
 
-El repositorio está estructurado para su uso directo:
+El repositorio está estructurado tanto para su uso directo como para su desarrollo:
 
 - **[`Log2Excel.exe`](./Log2Excel.exe)**: Ejecutable portable principal para Windows en la raíz del repositorio.
+- **[`main.py`](./main.py)**: Backend en Python con `pywebview` y manejo nativo de archivos y carpetas.
+- **[`index.html`](./index.html)**, **[`style.css`](./style.css)** y **[`app.js`](./app.js)**: Interfaz gráfica y motor de conversión individual y masiva.
 - **`.gitignore`**: Configuración para evitar subir archivos basura o temporales de compilación.
 
 ---
@@ -32,10 +35,13 @@ El repositorio está estructurado para su uso directo:
 
 1. Descarga el archivo **`Log2Excel.exe`** directamente del repositorio.
 2. Abre **`Log2Excel.exe`** en tu máquina con Windows.
-3. Elige el delimitador que utiliza tu archivo log (por defecto `;`).
-4. Arrastra tu archivo `.log` o `.txt` a la zona de carga (o haz clic para buscarlo).
-5. Verifica la estructura en la tabla de previsualización.
-6. Haz clic en **"Exportar a Excel"** para abrir el cuadro nativo de Windows y guardar tu archivo `.xlsx`.
+3. Elige el delimitador que utilizan tus archivos log (por defecto `;`).
+4. **Conversión Masiva Directa (por defecto):**
+   - Arrastra uno o múltiples archivos `.log`, `.txt` o `.csv` (o una carpeta entera), o usa los botones **"Seleccionar Archivos"** / **"Seleccionar Carpeta Completa"**.
+   - Cada archivo se convertirá automáticamente a Excel (`nombre_convertido.xlsx`) sin mostrar la planilla y quedará guardado en **la misma carpeta de origen** de los logs.
+   - Al finalizar puedes hacer clic en **"Abrir Carpeta"** para ver todos los archivos convertidos.
+5. **Modo Individual con Vista Previa (opcional):**
+   - Desmarca la casilla *"Conversión directa en la misma carpeta (sin vista previa)"* y sube un único archivo para previsualizar sus primeras 15 filas antes de exportarlo.
 
 ---
 

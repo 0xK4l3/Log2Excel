@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log2Excel - Convertidor de Logs a Excel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="logo">
+                <i data-lucide="file-spreadsheet" class="logo-icon"></i>
+                <h1>Log<span>2</span>Excel</h1>
+            </div>
+            <p class="subtitle">Convierte uno o múltiples archivos de registro (.log, .txt, .csv) a Excel al instante.</p>
+        </header>
+
+        <main class="app-content">
+            <!-- Configuration Card -->
+            <section class="card config-card">
+                <h2><i data-lucide="sliders"></i> Ajustes de Conversión</h2>
+                <div class="settings-grid">
+                    <div class="control-group">
+                        <label for="delimiter-select">Separador de Celdas</label>
+                        <select id="delimiter-select" class="form-control">
+                            <option value=";">Punto y coma ( ; )</option>
+                            <option value=",">Coma ( , )</option>
+                            <option value="\t">Tabulación ( Tab )</option>
+                            <option value="|">Barra vertical ( | )</option>
+                            <option value="custom">Personalizado...</option>
+                        </select>
+                        <input type="text" id="custom-delimiter" class="form-control hidden" placeholder="Ej: -" maxlength="5">
+                    </div>
+                    <div class="control-group checkboxes-stack">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="has-headers" checked>
+                            <span class="checkmark"></span>
+                            La primera línea contiene los encabezados
+                        </label>
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="direct-batch-mode" checked>
+                            <span class="checkmark"></span>
+                            Conversión directa en la misma carpeta (sin vista previa)
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Drop Zone Card -->
+            <section class="card upload-card" id="drop-zone">
+                <input type="file" id="file-input" accept=".log,.txt,.csv" multiple class="hidden-input">
+                <div class="upload-prompt">
+                    <div class="icon-pulse">
+                        <i data-lucide="upload-cloud" class="upload-icon"></i>
+                    </div>
+                    <h3>Arrastra uno o varios archivos Log aquí</h3>
+                    <p>Se convertirán automáticamente a Excel en su misma carpeta de origen</p>
+                    <div class="upload-actions">
+                        <button type="button" id="btn-select-files" class="btn btn-primary">
+                            <i data-lucide="files"></i> Seleccionar Archivos
+                        </button>
+                        <button type="button" id="btn-select-folder" class="btn btn-secondary">
+                            <i data-lucide="folder-open"></i> Seleccionar Carpeta Completa
+                        </button>
+                    </div>
+                    <span class="file-limits">Soporta conversión masiva de archivos .log, .txt y .csv</span>
+                </div>
+            </section>
+
+            <!-- Batch / Massive Conversion Card (Hidden initially) -->
+            <section class="card batch-card hidden" id="batch-card">
+                <div class="card-header">
+                    <div class="file-info-container">
+                        <i data-lucide="layers" class="file-icon-success" id="batch-status-icon"></i>
+                        <div>
+                            <h3 id="batch-title">Conversión Masiva de Logs</h3>
+                            <p id="batch-subtitle">Procesando archivos en la misma carpeta...</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button id="btn-open-folder" class="btn btn-secondary hidden" title="Abrir carpeta donde se guardaron los archivos Excel">
+                            <i data-lucide="folder-check"></i> Abrir Carpeta
+                        </button>
+                        <button id="btn-reconvert-batch" class="btn btn-secondary" title="Volver a convertir todos con los ajustes actuales">
+                            <i data-lucide="refresh-cw"></i> Re-convertir
+                        </button>
+                        <button id="btn-clear-batch" class="btn btn-primary">
+                            <i data-lucide="plus-circle"></i> Subir más archivos
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="progress-wrapper">
+                    <div class="progress-info">
+                        <span id="batch-progress-text">0 de 0 convertidos</span>
+                        <span id="batch-progress-percent">0%</span>
+                    </div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" id="batch-progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Batch File List -->
+                <div class="batch-list-container" id="batch-file-list">
+                    <!-- Dynamic batch items injected here -->
+                </div>
+            </section>
+
+            <!-- Preview Card for Single File Mode (Hidden initially) -->
+            <section class="card preview-card hidden" id="preview-card">
+                <div class="card-header">
+                    <div class="file-info-container">
+                        <i data-lucide="file-text" class="file-icon-success"></i>
+                        <div>
+                            <h3 id="file-name">archivo.log</h3>
+                            <p id="file-details">Cargando detalles...</p>
+                        </div>
+                    </div>
+                    <div class="actions">
+                        <button id="btn-clear" class="btn btn-secondary">
+                            <i data-lucide="trash-2"></i> Limpiar
+                        </button>
+                        <button id="btn-save-same-folder" class="btn btn-secondary hidden">
+                            <i data-lucide="folder-down"></i> Guardar en misma carpeta
+                        </button>
+                        <button id="btn-export" class="btn btn-primary">
+                            <i data-lucide="download"></i> Exportar a Excel
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table id="preview-table">
+                        <thead>
+                            <tr id="table-headers">
+                                <!-- Dynamic headers will be injected here -->
+                            </tr>
+                        </thead>
+                        <tbody id="table-body">
+                            <!-- Dynamic rows will be injected here -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="preview-footer">
+                    <p class="preview-note"><i data-lucide="info"></i> Mostrando las primeras 15 filas como previsualización.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <p>Log2Excel &copy; 2026. Procesamiento 100% local en tu equipo por seguridad y privacidad.</p>
+        </footer>
+    </div>
+
+    <!-- SheetJS Library for Excel conversion -->
+    <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
